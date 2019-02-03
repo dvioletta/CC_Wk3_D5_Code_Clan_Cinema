@@ -44,6 +44,18 @@ class Customers
     self.films.count()
   end
 
+  def finding_tickets()
+    sql = "SELECT * FROM tickets WHERE customers_id = $1"
+    values = [@id]
+    tickets_data = SqlRunner.run(sql, values)
+    return tickets_data.map{|tickets| Tickets.new(tickets)}
+  end
+
+  def ticket_price()
+    tickets = self.finding_tickets()
+    tickets_price = tickets.map{|tickets| tickets.fee}
+    return @funds - tickets.fee
+  end
 
   def self.delete_all() #Delete all method for class
     sql = "DELETE FROM customers"
