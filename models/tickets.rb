@@ -32,6 +32,23 @@ class Tickets
     SqlRunner.run(sql, values)
   end
 
+  def customers()
+    sql = "SELECT * FROM customers WHERE id = $1"
+    values = [@customers_id]
+    customers = SqlRunner.run(sql, vaules).first
+    return Customers.new(customers)
+  end
+
+  def films()
+    sql = "SELECT * FROM films WHERE id = $1"
+    values = [@films_id]
+    films = SqlRunner.run(sql, values).first
+    return Films.new(films)
+  end
+
+  
+
+
 
   def self.all() #save all method
     sql = "SELECT * FROM tickets"

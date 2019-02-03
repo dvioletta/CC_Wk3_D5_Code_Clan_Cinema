@@ -32,10 +32,24 @@ class Films
     SqlRunner.run(sql, values)
   end
 
+  def customers() # display all customers going to see a film
+    sql = "SELECT customers.* FROM customers INNER JOIN tickets ON customers.id = tickets.customers_id WHERE films_id = $1"
+    values = [@id]
+    customers_data = SqlRunner.run(sql, values)
+    result = customers_data.map{|customers| Customers.new(customers)}
+    return result
+  end
+
+    def customers_for_film()
+      self.customers.count()
+    end
+
+
   def self.all() #Save method for class
     sql = "SELECT * FROM films"
     films_data = SqlRunner.run(sql)
-    return Films.map_items(films_data)
+    result = films_data.map{|films| Films.new(films)}
+    return result
   end
 
   def self.delete_all() #Delete method for class
