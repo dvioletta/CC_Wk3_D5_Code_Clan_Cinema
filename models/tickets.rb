@@ -16,7 +16,7 @@ class Tickets
   def save() #create method
     sql = "INSERT INTO tickets (films_id, customers_id) VALUES ($1, $2) RETURNING id"
     values = [@films_id, @customers_id]
-    tickets = SqlRunner.run(sql, values)[0];
+    tickets = SqlRunner.run(sql, values).first
     @id = tickets['id'].to_i
   end
 
@@ -35,7 +35,7 @@ class Tickets
   def customers()
     sql = "SELECT * FROM customers WHERE id = $1"
     values = [@customers_id]
-    customers = SqlRunner.run(sql, vaules).first
+    customers = SqlRunner.run(sql, values).first
     return Customers.new(customers)
   end
 
@@ -45,9 +45,6 @@ class Tickets
     films = SqlRunner.run(sql, values).first
     return Films.new(films)
   end
-
-  
-
 
 
   def self.all() #save all method
